@@ -8,5 +8,6 @@ CMD ["/bin/bash"]
 RUN \
 yum clean all && \
 yum -y update && \
-yum -y install net-tools vim-enhanced wget openssh-clients nfs-utils screen yum-utils ntp tar && \
+#yum -y install net-tools vim-enhanced wget openssh-clients nfs-utils screen yum-utils ntp tar && \
+yum -y install vim-enhanced wget && \
 rm -fr /var/cache/*
