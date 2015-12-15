@@ -11,7 +11,7 @@ rm -fr /var/cache/*
 # Wordpress Install
 RUN \
 wget -P /var/www/html/ https://wordpress.org/wordpress-4.3.zip && \
-unzip /var/www/html/wordpress-4.3.zip -d /var/html/www/ && \
+unzip /var/www/html/wordpress-4.3.zip -d /var/www/html/ && \
 rm -fr /var/www/html/wordpress-4.3.zip && \
 cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
