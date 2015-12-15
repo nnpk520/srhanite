@@ -3,9 +3,9 @@ MAINTAINER Simon Hutson
 
 # Install Pre-requisites
 RUN \
-yum clean all && \
-yum -y update && \
-yum -y install httpd mod_rewrite mod_ssl mov_env php php-common php-cli php-mysql && \
+#yum clean all && \
+#yum -y update && \
+yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql unzip && \
 rm -fr /var/cache/*
 
 RUN \
