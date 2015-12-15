@@ -1,7 +1,7 @@
 FROM simonhutson/srh-anite-centos-7.1.1503
 MAINTAINER Simon Hutson
 
-# Install Pre-requisites
+# Install WordPress Pre-requisites
 RUN \
 #yum clean all && \
 #yum -y update && \
