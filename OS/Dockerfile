@@ -1,7 +1,7 @@
 FROM scratch
 MAINTAINER SRHAnite
 
-ADD ../centos-7.1503-20150330_1749-docker.tar.xz /
+ADD /centos-7.1503-20150330_1749-docker.tar.xz /
 CMD ["/bin/bash"]
 
 # Install Pre-requisites
