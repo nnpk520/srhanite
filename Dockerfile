@@ -1,5 +1,5 @@
 FROM scratch
-MAINTAINER The CentOS Project <cloud-ops@centos.org> - ami_creator
+MAINTAINER SRHAnite
 
 ADD centos-7.1503-20150330_1749-docker.tar.xz /
 CMD ["/bin/bash"]
@@ -11,7 +11,7 @@ yum -y update && \
 yum -y install httpd mod_rewrite mod_ssl mov_env php php-common php-cli php-mysql && \
 rm -fr /var/cache/*
 
-#RUN \
-#echo "service httpd start" >> ~/.bashrc
+RUN \
+echo "service httpd start" >> ~/.bashrc
 
-#EXPOSE 80
+EXPOSE 80
