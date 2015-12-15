@@ -1,8 +1,5 @@
-FROM scratch
-MAINTAINER SRHAnite
-
-ADD centos-7.1503-20150330_1749-docker.tar.xz /
-CMD ["/bin/bash"]
+FROM simonhutson/srh-anite-centos-7.1.1503
+MAINTAINER Simon Hutson
 
 # Install Pre-requisites
 RUN \
