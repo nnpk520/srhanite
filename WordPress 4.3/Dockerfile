@@ -10,6 +10,7 @@ rm -fr /var/cache/*
 
 # Copy Files To Image
 ADD mysql_setup.sql /tmp/
+ADD wordpress.conf /etc/httpd/conf.d/
 
 # Wordpress Install
 RUN \
