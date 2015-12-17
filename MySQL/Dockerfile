@@ -1,17 +1,18 @@
-FROM scratch
-MAINTAINER SRHAnite
+FROM simonhutson/srh-anite-centos-7.1.1503
+MAINTAINER Simon Hutson
 
-ADD centos-7.1503-20150330_1749-docker.tar.xz /
-CMD ["/bin/bash"]
-
-# Install Pre-requisites
+# Install MySQL Pre-requisites
 RUN \
-yum clean all && \
-yum -y update && \
-yum -y install httpd mod_rewrite mod_ssl mov_env php php-common php-cli php-mysql && \
+yum -y install libaio perl pwgen libpwquality mysql-server && \
 rm -fr /var/cache/*
 
-RUN \
-echo "service httpd start" >> ~/.bashrc
+# Copy Files To Image
+ADD mysql_setup.sql /tmp/
 
-EXPOSE 80
+# Start MySQL
+RUN \
+service mysql start && \
+mysql < /tmp/mysql_setup.sql && \
+rm /tmp/mysql_setup.sql.*
+
+EXPOSE 3306
