@@ -12,7 +12,7 @@ rm -fr /var/cache/*
 # Install and Configure MySQL
 RUN \
 yum-config-manager --add-repo http://dev.mysql.com/downloads/repo/yum/mysql-5.6-community && \
-yum install mysql-community-server && \
+yum -y install mysql-community-server && \
 #rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
 #yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
 rm -rf /var/cache/*
