@@ -3,7 +3,7 @@ MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install pwgen libpwqu&& \
+#yum -y install pwgen libpwqu && \
 rm -fr /var/cache/*
 
 # Copy Files To Image
