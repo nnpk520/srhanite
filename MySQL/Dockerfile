@@ -12,7 +12,7 @@ ADD mysql_setup.sql /tmp/
 # Install and Configure MySQL
 RUN \
 service mysqld start && \
-mysql < /tmp/mysql_setup.sql && \
+mysqld < /tmp/mysql_setup.sql && \
 rm /tmp/mysql_setup.sql.* && \
 service mysqld stop
 
