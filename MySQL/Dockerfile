@@ -27,8 +27,7 @@ rm -rf /var/cache/*
 
 # Start MySQL
 RUN \
-systemctl list-units | grep .service
-#systemctl start mysqld && \
+start mysqld
 #systemctl enable mysqld && \
 #systemctl status mysqld
 
