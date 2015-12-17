@@ -3,20 +3,22 @@ MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install pwgen libpwquality && \
+yum -y install pwgen libpwqu&& \
 rm -fr /var/cache/*
 
 # Copy Files To Image
-ADD mysql_setup.sql /tmp/
+#ADD mysql_setup.sql /tmp/
 
 # Install and Configure MySQL
 RUN \
-rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
-yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
+yum-config-manager --add-repo http://dev.mysql.com/downloads/repo/yum/mysql-5.6-community && \
+yum install mysql-community-server && \
+#rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
+#yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
 rm -rf /var/cache/*
 
 # Start MySQL on boot
-RUN \
-echo "mysqld_safe" >> ~/.bashrc
+#RUN \
+#echo "mysqld_safe" >> ~/.bashrc
 
-EXPOSE 3306
+#EXPOSE 3306
