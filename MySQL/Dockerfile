@@ -10,11 +10,10 @@ rm -fr /var/cache/*
 ADD mysql_setup.sql /tmp/
 
 # Install and Configure MySQL
-RUN \
-service mysqld start && \
-mysql < /tmp/mysql_setup.sql && \
-service mysqld stop
-# rm -fr /tmp/mysql_setup.sql* && \
+RUN service mysqld start
+RUN mysql < /tmp/mysql_setup.sql
+RUN service mysqld stop
+RUN rm -fr /tmp/mysql_setup.sql*
 
 # Start MySQL on boot
 RUN \
