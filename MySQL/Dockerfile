@@ -11,8 +11,9 @@ rm -fr /var/cache/*
 
 # Install and Configure MySQL
 RUN \
-yum-config-manager --add-repo http://dev.mysql.com/downloads/repo/yum/ && \
-yum-config-manager --disable mysql? && \
+yum-config-manager --add-repo http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm && \
+#yum-config-manager --disable mysql? && \
+yum-config-manager --disable mysql57-community && \
 yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
 #rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
