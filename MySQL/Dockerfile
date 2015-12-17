@@ -14,9 +14,9 @@ RUN \
 rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
 yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
 rm -rf /var/cache/*
-RUN sudo service mysql start
+RUN sudo service mysqld start
 RUN mysql < /tmp/mysql_setup.sql
-RUN sudo service mysql stop
+RUN sudo service mysqld stop
 RUN rm -fr /tmp/mysql_setup.sql*
 
 # Install and Configure MySQL
