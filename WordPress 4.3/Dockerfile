@@ -5,7 +5,7 @@ MAINTAINER Simon Hutson
 RUN \
 #yum clean all && \
 #yum -y update && \
-yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql unzip libpng12-dev libjpe-dev && \
+yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql libpng12-dev libjpe-dev && \
 rm -fr /var/cache/*
 
 # Copy Files To Image
