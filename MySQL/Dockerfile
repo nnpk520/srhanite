@@ -14,9 +14,9 @@ RUN \
 rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
 yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
 rm -rf /var/cache/*
-RUN service mysqld start
+RUN service mysql start
 RUN mysql < /tmp/mysql_setup.sql
-RUN service mysqld stop
+RUN service mysql stop
 RUN rm -fr /tmp/mysql_setup.sql*
 
 # Install and Configure MySQL
@@ -27,6 +27,6 @@ RUN rm -fr /tmp/mysql_setup.sql*
 
 # Start MySQL on boot
 RUN \
-echo "service mysqld start" >> ~/.bashrc
+echo "service mysql start" >> ~/.bashrc
 
 EXPOSE 3306
