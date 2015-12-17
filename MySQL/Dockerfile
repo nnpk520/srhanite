@@ -9,10 +9,15 @@ rm -fr /var/cache/*
 # Copy Files To Image
 ADD mysql_setup.sql /tmp/
 
-# Start MySQL
+# Install and Configure MySQL
 RUN \
-service mysql start && \
+service mysqld start && \
 mysql < /tmp/mysql_setup.sql && \
-rm /tmp/mysql_setup.sql.*
+rm /tmp/mysql_setup.sql.* && \
+service mysqld stop
+
+# Start MySQL on boot
+RUN \
+echo "service mysqld start" >> ~/.bashrc
 
 EXPOSE 3306
