@@ -3,7 +3,7 @@ MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install libaio perl pwgen libpwquality mysql-server && \
+yum -y install libaio perl pwgen libpwquality php-mysql mysql-server && \
 rm -fr /var/cache/*
 
 # Copy Files To Image
@@ -13,8 +13,8 @@ ADD mysql_setup.sql /tmp/
 RUN \
 service mysqld start && \
 mysql < /tmp/mysql_setup.sql && \
-rm -fr /tmp/mysql_setup.sql* && \
 service mysqld stop
+# rm -fr /tmp/mysql_setup.sql* && \
 
 # Start MySQL on boot
 RUN \
