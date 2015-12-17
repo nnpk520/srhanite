@@ -2,17 +2,18 @@ FROM simonhutson/srh-anite-centos-7.1.1503
 MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
-#RUN \
-#yum -y install libaio perl pwgen libpwquality php-mysql && \
-#rm -fr /var/cache/*
+RUN \
+yum -y install pwgen libpwquality && \
+rm -fr /var/cache/*
 
 # Copy Files To Image
 ADD mysql_setup.sql /tmp/
 
 # Install and Configure MySQL
-RUN rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql
-RUN yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm
-RUN rm -rf /var/cache/*
+RUN \
+rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
+yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
+rm -rf /var/cache/*
 RUN service mysqld start
 RUN mysql < /tmp/mysql_setup.sql
 RUN service mysqld stop
