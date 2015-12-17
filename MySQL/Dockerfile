@@ -2,9 +2,9 @@ FROM simonhutson/srh-anite-centos-7.1.1503
 MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
-RUN \
-yum -y install libaio perl pwgen libpwquality php-mysql && \
-rm -fr /var/cache/*
+#RUN \
+#yum -y install libaio perl pwgen libpwquality php-mysql && \
+#rm -fr /var/cache/*
 
 # Copy Files To Image
 ADD mysql_setup.sql /tmp/
