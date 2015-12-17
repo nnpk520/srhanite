@@ -22,7 +22,7 @@ rm -rf /var/cache/*
 
 # Start MySQL
 RUN \
-service mysqld start && \
-service mysqld status
+service mysql start && \
+service mysql status
 
 EXPOSE 3306
