@@ -11,7 +11,7 @@ rm -fr /var/cache/*
 
 # Install and Configure MySQL
 RUN \
-sudo yum localinstall http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+yum install http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
 #RUN yum-config-manager --disable mysql?
 #yum-config-manager --disable mysql57-community && \
 #RUN yum-config-manager --enable mysql56-community
