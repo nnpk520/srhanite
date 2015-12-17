@@ -3,17 +3,27 @@ MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install libaio perl pwgen libpwquality php-mysql mysql-server && \
+yum -y install libaio perl pwgen libpwquality php-mysql && \
 rm -fr /var/cache/*
 
 # Copy Files To Image
 ADD mysql_setup.sql /tmp/
 
 # Install and Configure MySQL
-RUN service mysqld start
-RUN mysql < /tmp/mysql_setup.sql
-RUN service mysqld stop
-RUN rm -fr /tmp/mysql_setup.sql*
+RUN \
+rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
+yum install -y https://repo.mysql.com/yum/mysql-5.6-community/docker/x86_64/mysql-community-server-minimal-5.6.28-2.el7.x86_64.rpm && \
+rm -rf /var/cache/* && \
+service mysqld start && \
+mysql < /tmp/mysql_setup.sql && \
+service mysqld stop && \
+rm -fr /tmp/mysql_setup.sql*
+
+# Install and Configure MySQL
+#RUN service mysqld start
+#RUN mysql < /tmp/mysql_setup.sql
+#RUN service mysqld stop
+#RUN rm -fr /tmp/mysql_setup.sql*
 
 # Start MySQL on boot
 RUN \
