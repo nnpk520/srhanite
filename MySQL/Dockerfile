@@ -13,9 +13,9 @@ rm -fr /var/cache/*
 RUN \
 yum-config-manager --add-repo http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm && \
 #yum-config-manager --disable mysql? && \
-#yum-config-manager --disable mysql57-community && \
-#yum-config-manager --enable mysql56-community && \
-yum -y install mysql-community-server && \
+yum-config-manager --disable mysql57-community && \
+yum-config-manager --enable mysql56-community && \
+#yum -y install mysql-community-server && \
 #rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
 #yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
 rm -rf /var/cache/*
