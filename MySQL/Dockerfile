@@ -9,21 +9,20 @@ rm -fr /var/cache/*
 # Copy Files To Image
 #ADD mysql_setup.sql /tmp/
 
-# Install and Configure MySQL
+# Install and Configure MySQL 5.6
+# 1. Install Latest 5.x Package http://dev.mysql.com/downloads/repo/yum/
+# 2. Disable All MySQL Repositories
+# 3. Enable The Repository For The Required MySQL Version
 RUN \
-yum -y install http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm && \
-yum-config-manager --disable mysql* && \
-#yum-config-manager --disable mysql57-community && \
+yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm && \
+yum-config-manager --disable mysql5* && \
 yum-config-manager --enable mysql56-community && \
-#RUN yum repolist enabled | grep "^mysql" 
-yum -y install mysql-community-server 
-#RUN yum list installed | grep "^mysql" 
-#rpmkeys --import http://repo.mysql.com/RPM-GPG-KEY-mysql && \
-#yum install -y https://repo.mysql.com/yum/mysql-5.7-community/docker/x86_64/mysql-community-server-minimal-5.7.10-1.el7.x86_64.rpm && \
-#RUN rm -rf /var/cache/*
+yum -y install mysql-community-server && \
+rm -rf /var/cache/*
 
-# Start MySQL on boot
-#RUN \
-#echo "mysqld_safe" >> ~/.bashrc
+# Start MySQL
+RUN \
+service mysqld start && \
+service mysqld status
 
-#EXPOSE 3306
+EXPOSE 3306
