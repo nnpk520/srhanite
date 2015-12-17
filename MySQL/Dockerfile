@@ -12,8 +12,8 @@ ADD mysql_setup.sql /tmp/
 # Install and Configure MySQL
 RUN \
 service mysqld start && \
-mysqld < /tmp/mysql_setup.sql && \
-rm /tmp/mysql_setup.sql.* && \
+mysql < /tmp/mysql_setup.sql && \
+rm -fr /tmp/mysql_setup.sql* && \
 service mysqld stop
 
 # Start MySQL on boot
