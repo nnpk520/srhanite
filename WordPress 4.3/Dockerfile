@@ -8,6 +8,9 @@ RUN \
 yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql unzip && \
 rm -fr /var/cache/*
 
+# Copy Files To Image
+ADD mysql_setup.sql /tmp/
+
 # Wordpress Install
 RUN \
 wget -P /var/www/html/ https://wordpress.org/wordpress-4.3.zip && \
