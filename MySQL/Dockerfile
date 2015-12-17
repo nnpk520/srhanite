@@ -1,6 +1,7 @@
 # Useful Links
 # http://downloads.mysql.com/docs/mysql-repo-excerpt-5.6-en.pdf
 # http://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/comment-page-7/
+# https://www.youtube.com/watch?v=Kneb93gSoRg
 
 FROM simonhutson/srh-anite-centos-7.1.1503
 MAINTAINER Simon Hutson
@@ -26,8 +27,8 @@ rm -rf /var/cache/*
 
 # Start MySQL
 RUN \
-systemctl start mysqld.service && \
-systemctl enable mysqld.service
-
+systemctl start mysqld && \
+systemctl enable mysqld && \
+systemctl status mysqld
 
 EXPOSE 3306
