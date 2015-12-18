@@ -25,10 +25,5 @@ yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
 rm -rf /var/cache/*
 
-# Start MySQL
-RUN \
-start mysqld
-#systemctl enable mysqld && \
-#systemctl status mysqld
 
 EXPOSE 3306
