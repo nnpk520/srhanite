@@ -26,7 +26,6 @@ yum -y install mysql-community-server && \
 rm -rf /var/cache/*
 
 RUN \
-mysql_secure_installation
-
+sudo mysql_secure_installation
 
 EXPOSE 3306
