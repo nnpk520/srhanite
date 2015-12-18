@@ -13,8 +13,9 @@ rm -fr /var/cache/*
 
 # Install systemd
 ENV container docker
-RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs
-RUN yum -y update; yum clean all; \
+RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs && \
+yum -y update && \
+yum clean all && \
 (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i ==
 systemd-tmpfiles-setup.service ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*;\
