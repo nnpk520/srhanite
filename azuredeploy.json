@@ -13,26 +13,25 @@
       "metadata": {
         "description": "The location where the Virtual Machine will be deployed."
       },
-      //https: //azure.microsoft.com/en-us/regions/
       "allowedValues": [
-        "Central US", //Iowa
-        "East US", //Virginia
-        "East US 2", //Virginia
-        "North Central US", //Illinois
-        "South Central US", //Texas
-        "West US", //California
-        "West Europe", //Ireland
-        "North Europe", //Netherlands
-        "East Asia", //Hong Kong
-        "Southeast Asia", //Singapore
-        "Japan East", //Tokyo, Saitama
-        "Japan West", //Osaka
-        "Brazil South", //Sao Paulo State
-        "Australia East", //New South Wales
-        "Australia Southeast", //Victoria
-        "Central India", //Pune
-        "South India", //Chennai
-        "West India" //Mumbai
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West US",
+        "West Europe",
+        "North Europe",
+        "East Asia",
+        "Southeast Asia",
+        "Japan East",
+        "Japan West",
+        "Brazil South",
+        "Australia East",
+        "Australia Southeast",
+        "Central India",
+        "South India",
+        "West India"
       ]
     },
     "storageAccountType": {
