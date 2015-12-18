@@ -25,7 +25,4 @@ yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
 rm -rf /var/cache/*
 
-RUN \
-sudo mysql_secure_installation
-
 EXPOSE 3306
