@@ -92,6 +92,7 @@
     "imageOffer": "CentOS",
     "imageOSVersion": "7.1",
     "OSDiskName": "[concat(parameters('prefix'),'osdisk')]",
+    "dataDiskSize": "100",
     "dnsName": "[concat(parameters('prefix'),'dns')]",
     "nicName": "[concat(parameters('prefix'),'nic')]",
     "extensionName": "DockerExtension",
@@ -202,13 +203,35 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk1",
+            "name": "[concat(variables('vmName'),'osdisk')]",
             "vhd": {
               "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
-          }
+          },
+          "dataDisks": [
+            {
+              "name": "[concat(variables('vmName'),'datadisk01')]",
+              "diskSizeGB": "[variables('dataDiskSize')]",
+              "lun": 0,
+              "vhd": {
+                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'dataDisk1' ,'.vhd')]"
+              },
+              "caching": "ReadOnly",
+              "createOption": "Empty"
+            },
+            {
+              "name": "[concat(variables('vmName'),'datadisk02')]",
+              "diskSizeGB": "[variables('dataDiskSize')]",
+              "lun": 1,
+              "vhd": {
+                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName') ,'dataDisk2','.vhd')]"
+              },
+              "caching": "ReadOnly",
+              "createOption": "Empty"
+            }
+          ]
         },
         "networkProfile": {
           "networkInterfaces": [
@@ -261,6 +284,37 @@
               ]
             }
           }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/OSPatchingForLinux')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "OSPatchingForLinux",
+        "typeHandlerVersion": "2.9",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "disabled": false,
+          "stop": false,
+          "rebootAfterPatch": "RebootIfNeed",
+          "category": "Important",
+          "installDuration": "<00:30>",
+          "oneoff": false,
+          "intervalOfWeeks": "1",
+          "dayOfWeek": "Sunday",
+          "startTime": "<03:00>"
+          //"vmStatusTest": {
+          //  "local": false,
+          //  "idleTestScript": "<path_to_idletestscript>",
+          //  "healthyTestScript": "<path_to_healthytestscript>"
+          //}
         }
       }
     }
