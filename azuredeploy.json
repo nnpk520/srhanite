@@ -308,7 +308,8 @@
           "oneoff": false,
           "intervalOfWeeks": "1",
           "dayOfWeek": "Sunday",
-          "startTime": "<03:00>"
+          "startTime": "<03:00>",
+          "settings": { }
         }
       }
     },
