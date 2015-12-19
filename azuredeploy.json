@@ -297,13 +297,13 @@
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "OSPatchingForLinux",
-        "typeHandlerVersion": "2.9",
+        "typeHandlerVersion": "2.1",
         "autoUpgradeMinorVersion": true,
         "settings": {
           "disabled": false,
           "stop": false,
           "rebootAfterPatch": "RebootIfNeed",
-          "category": "Important",
+          "category": "ImportantAndRecommended",
           "installDuration": "<00:30>",
           "oneoff": false,
           "intervalOfWeeks": "1",
