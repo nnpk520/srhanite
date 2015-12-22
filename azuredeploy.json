@@ -269,7 +269,7 @@
                 "3306:3306"
               ],
               "volumes": [
-                "/var/lib/mysql:/var/lib/mysql"
+                "/datadisks:/var/lib/mysql"
               ],
               "environment": [
                 "MYSQL_ROOT_PASSWORD"
