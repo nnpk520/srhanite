@@ -106,7 +106,7 @@
     "vnetName": "[concat(parameters('prefix'),'vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
     "subnetRef": "[concat(variables('vnetID'), '/subnets/', variables('subnetName'))]",
-    "scriptUrl": "https://raw.githubusercontent.com/simonhutson/srhanite/master/centos-vm-disk-utils-0.1.sh",
+    "scriptUrl": "https://raw.githubusercontent.com/simonhutson/srhanite/master/vm-disk-utils-0.1.sh",
   },
   "resources": [
     {
