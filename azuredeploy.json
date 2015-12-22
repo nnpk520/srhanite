@@ -353,7 +353,7 @@
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), '/azureVmUtils')]",
       "apiVersion": "2015-06-015",
-      "location": "[variables('location')]",
+      "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
