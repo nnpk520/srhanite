@@ -248,7 +248,8 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
@@ -262,7 +263,7 @@
         },
         "settings": {
           "compose": {
-            "db": {
+            "mysql": {
               "image": "simonhutson/srh-anite-mysql-5.6",
               "ports": [
                 "3306:3306"
@@ -280,7 +281,7 @@
                 "80:80"
               ],
               "links": [
-                "db:simonhutson/srh-anite-mysql-5.6"
+                "mysql:simonhutson/srh-anite-mysql-5.6"
               ]
             }
           }
@@ -352,7 +353,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), '/azureVmUtils')]",
+      "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
