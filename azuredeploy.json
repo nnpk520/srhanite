@@ -11,7 +11,7 @@
     "location": {
       "type": "string",
       "metadata": {
-        "description": "The location where the Virtual Machine will be deployed."
+        "description": "The location where the Virtual Machine(s) will be deployed."
       },
       "allowedValues": [
         "Central US",
@@ -50,7 +50,7 @@
     "vmSize": {
       "type": "string",
       "metadata": {
-        "description": "The size of Virtual Machines to be deployed."
+        "description": "The size of Virtual Machine(s) to be deployed."
       },
       "allowedValues": [
         "Standard_D1",
@@ -70,13 +70,13 @@
     "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "Admin user name for the Virtual Machine."
+        "description": "Admin user name for the Virtual Machine(s)."
       }
     },
     "adminPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Admin password for the Virtual Machine."
+        "description": "Admin password for the Virtual Machine(s)."
       }
     },
     "mysqlPassword": {
@@ -210,8 +210,8 @@
             "createOption": "FromImage"
           },
           "dataDisks": [
-            {
-              "name": "[concat(variables('vmName'),'datadisk01')]",
+            { 
+              "name": "[concat(variables('vmName'),'datadisk01')]", 
               "diskSizeGB": "[variables('dataDiskSize')]",
               "lun": 0,
               "vhd": {
@@ -347,6 +347,23 @@
         "typeHandlerVersion": "2.2",
         "settings": { },
         "protectedSettings": { }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), '/azureVmUtils')]",
+      "apiVersion": "2015-06-015",
+      "location": "[variables('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.2",
+        "settings": {
+          "commandToExecute": "bash vm-disk-utils-0.1.sh -s"
+        }
       }
     }
   ]
