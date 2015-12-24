@@ -53,6 +53,10 @@
         "description": "The size of Virtual Machine(s) to be deployed."
       },
       "allowedValues": [
+        "Standard_A1",
+        "Standard_A2",
+        "Standard_A3",
+        "Standard_A4",
         "Standard_D1",
         "Standard_D2",
         "Standard_D3",
@@ -108,6 +112,18 @@
     "subnetRef": "[concat(variables('vnetID'), '/subnets/', variables('subnetName'))]",
     "scriptUrl": "https://raw.githubusercontent.com/simonhutson/srhanite/master/vm-disk-utils-0.1.sh",
     "vmDataDiskSettings": {
+     "Standard_A1": {
+       "count": 2
+     },
+     "Standard_A2": {
+       "count": 4
+     },
+     "Standard_A3": {
+       "count": 8
+     },
+     "Standard_A4": {
+       "count": 16
+     },
      "Standard_D1": {
        "count": 2
      },
