@@ -352,7 +352,7 @@
                 "3306:3306"
               ],
               "volumes": [
-                "/datadisk:/var/lib/mysql"
+                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
               ],
               "environment": [
                 "MYSQL_ROOT_PASSWORD",
@@ -453,7 +453,7 @@
           "fileUris": [
             "[variables('scriptUrl')]"
           ],
-          "commandToExecute": "bash vm-disk-utils-0.1.sh -s"
+          "commandToExecute": "[concat('bash vm-disk-utils-0.1.sh -b', parameters('dataDiskPath'), ' -s')]"
         }
       }
     }
