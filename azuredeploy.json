@@ -291,8 +291,8 @@
             "createOption": "FromImage"
           },
           "dataDisks": [
-            { 
-              "name": "[concat(variables('vmName'),'datadisk01')]", 
+            {
+              "name": "[concat(variables('vmName'),'datadisk01')]",
               "diskSizeGB": "[variables('dataDiskSize')]",
               "lun": 0,
               "vhd": {
@@ -319,46 +319,6 @@
               "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
             }
           ]
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "DockerExtension",
-        "typeHandlerVersion": "1.0",
-        "autoUpgradeMinorVersion": true,
-        "protectedSettings": {
-          "environment": {
-            "MYSQL_ROOT_PASSWORD": "[parameters('mysqlRootPassword')]",
-            "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
-            "MYSQL_USER": "[parameters('mysqlUser')]",
-            "MYSQL_PASSWORD": "[parameters('mysqlPassword')]"
-          }
-        },
-        "settings": {
-          "compose": {
-            "database": {
-              "image": "simonhutson/srh-anite-mysql-5.6",
-              "ports": [
-                "3306:3306"
-              ],
-              "environment": [
-                "MYSQL_ROOT_PASSWORD",
-                "MYSQL_DATABASE",
-                "MYSQL_USER",
-                "MYSQL_PASSWORD"
-              ]
-            }
-          }
         }
       }
     },
@@ -442,6 +402,35 @@
             "[variables('scriptUrl')]"
           ],
           "commandToExecute": "[concat('bash vm-disk-utils-0.1.sh -b', parameters('dataDiskPath'), ' -s')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "DockerExtension",
+        "typeHandlerVersion": "1.0",
+        "autoUpgradeMinorVersion": true,
+        "protectedSettings": {
+          "environment": {
+            "MYSQL_ROOT_PASSWORD": "[parameters('mysqlRootPassword')]",
+            "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
+            "MYSQL_USER": "[parameters('mysqlUser')]",
+            "MYSQL_PASSWORD": "[parameters('mysqlPassword')]",
+            "MYSQL_RANDOM_ROOT_PASSWORD": "no",
+            "MYSQL_ONETIME_PASSWORD": "no",
+            "MYSQL_ALLOW_EMPTY_PASSWORD": "no"
+          }
+        },
+        "settings": {
         }
       }
     }
