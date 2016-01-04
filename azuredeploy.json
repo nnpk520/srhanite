@@ -97,17 +97,17 @@
     "mysqlDatabase": {
       "type": "string",
       "metadata": {
-        "description": "Name of the MySQL WordPress database."
+        "description": "Name of the WordPress MySQL database."
       },
     "mysqlUser": {
       "type": "string",
       "metadata": {
-        "description": "User for the MySQL WordPress database."
+        "description": "User for the WordPress MySQL database."
       },
     "mysqlPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Password for the MySQL Wordpress database."
+        "description": "Password for the Wordpress MySQL database."
       }
     }
   },
@@ -364,7 +364,7 @@
                 "80:80"
               ],
               "links": [
-                "mysql:simonhutson/srh-anite-mysql-5.6"
+                "mysql"
               ]
             }
           }
