@@ -2,10 +2,22 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "prefix": {
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password for the Virtual Machine(s)."
+      }
+    },
+    "adminUsername": {
       "type": "string",
       "metadata": {
-        "description": "Unique prefix for resource names."
+        "description": "Admin user name for the Virtual Machine(s)."
+      }
+    },
+    "dataDiskPath": {
+      "type": "string",
+      "metadata": {
+        "description": "Data disk path for the Virtual Machine(s)."
       }
     },
     "location": {
@@ -33,6 +45,36 @@
         "South India",
         "West India"
       ]
+    },
+    "mysqlDatabase": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the WordPress MySQL database."
+      }
+    },
+    "mysqlPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Wordpress MySQL database."
+      }
+    },
+    "mysqlRootPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Root password for the MySQL database."
+      }
+    },
+    "mysqlUser": {
+      "type": "string",
+      "metadata": {
+        "description": "User for the WordPress MySQL database."
+      }
+    },
+    "prefix": {
+      "type": "string",
+      "metadata": {
+        "description": "Unique prefix for resource names."
+      }
     },
     "storageAccountType": {
       "type": "string",
@@ -70,45 +112,6 @@
         "Standard_DS3",
         "Standard_DS4"
       ]
-    },
-    "adminUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "Admin user name for the Virtual Machine(s)."
-      }
-    },
-    "adminPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Admin password for the Virtual Machine(s)."
-      }
-    },
-    "dataDiskPath": {
-      "type": "string",
-      "metadata": {
-        "description": "Data disk path for the Virtual Machine(s)."
-      }
-    },
-    "mysqlRootPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Root password for the MySQL database."
-      },
-    "mysqlDatabase": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the WordPress MySQL database."
-      },
-    "mysqlUser": {
-      "type": "string",
-      "metadata": {
-        "description": "User for the WordPress MySQL database."
-      },
-    "mysqlPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password for the Wordpress MySQL database."
-      }
     }
   },
   "variables": {
