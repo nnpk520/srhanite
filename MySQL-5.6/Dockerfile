@@ -6,6 +6,11 @@
 FROM simonhutson/srh-anite-centos-7.1.1503
 MAINTAINER Simon Hutson
 
+# Install MySQL Pre-requisites
+RUN \
+yum -y install pwgen libpwqu libpwquality && \
+rm -fr /var/cache/*
+
 # Install and Configure MySQL 5.6
 # 1. Install Latest 5.x Package http://dev.mysql.com/downloads/repo/yum/
 # 2. Disable All MySQL Repositories
@@ -15,7 +20,6 @@ yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.
 yum-config-manager --disable mysql5* && \
 yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
-yum -y install libpwquality && \
 rm -rf /var/cache/*
 
 COPY docker-entrypoint.sh /entrypoint.sh
