@@ -351,8 +351,11 @@
               "ports": [
                 "3306:3306"
               ],
-              "volumes": [
-                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
+              "environment": [
+                "MYSQL_ROOT_PASSWORD",
+                "MYSQL_DATABASE",
+                "MYSQL_USER",
+                "MYSQL_PASSWORD"
               ]
             }
           }
