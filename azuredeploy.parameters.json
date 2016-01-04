@@ -21,7 +21,7 @@
       "value": "password"
     },
     "vmDataVolumePath": {
-      "value": "/DataVolume"
+      "value": "/datadisks"
     },
     "mysqlRootPassword": {
       "value": "password"
