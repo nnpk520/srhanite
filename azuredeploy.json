@@ -83,6 +83,12 @@
         "description": "Admin password for the Virtual Machine(s)."
       }
     },
+    "vmDataVolumePath": {
+      "type": "string",
+      "metadata": {
+        "description": "Data volume path for the Virtual Machine(s)."
+      }
+    },
     "mysqlRootPassword": {
       "type": "securestring",
       "metadata": {
@@ -289,7 +295,7 @@
               "vhd": {
                 "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'dataDisk1' ,'.vhd')]"
               },
-              "caching": "ReadOnly",
+              "caching": "None",
               "createOption": "Empty"
             },
             {
@@ -299,7 +305,7 @@
               "vhd": {
                 "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName') ,'dataDisk2','.vhd')]"
               },
-              "caching": "ReadOnly",
+              "caching": "None",
               "createOption": "Empty"
             }
           ]
