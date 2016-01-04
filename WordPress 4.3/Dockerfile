@@ -13,7 +13,7 @@ yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysq
 rm -fr /var/cache/*
 
 # Copy Files To Image
-ADD wordpress.conf /etc/httpd/conf.d/
+#ADD wordpress.conf /etc/httpd/conf.d/
 
 # Install and Configure WordPress
 RUN \
@@ -24,12 +24,12 @@ cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-confi
 #sed -ie 's/database_name_here/wordpress/g' /var/www/html/wordpress/wp-config.php && \
 #sed -ie 's/username_here/wpuser/g' /var/www/html/wordpress/wp-config.php && \
 #sed -ie 's/password_here/Pass@word1/g' /var/www/html/wordpress/wp-config.php
-sed -ie 's/database_name_here/$WORDPRESS_DATABASE_NAME/g' /var/www/html/wordpress/wp-config.php && \
-sed -ie 's/username_here/$WORDPRESS_USERNAME/g' /var/www/html/wordpress/wp-config.php && \
-sed -ie 's/password_here/$WORDPRESS_PASSWORD/g' /var/www/html/wordpress/wp-config.php
+#sed -ie 's/database_name_here/$WORDPRESS_DATABASE_NAME/g' /var/www/html/wordpress/wp-config.php && \
+#sed -ie 's/username_here/$WORDPRESS_USERNAME/g' /var/www/html/wordpress/wp-config.php && \
+#sed -ie 's/password_here/$WORDPRESS_PASSWORD/g' /var/www/html/wordpress/wp-config.php
 
 # Start WordPress on boot
-RUN \
-echo "service httpd start" >> ~/.bashrc
+#RUN \
+#echo "service httpd start" >> ~/.bashrc
 
 EXPOSE 80
