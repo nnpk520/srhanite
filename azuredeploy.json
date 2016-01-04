@@ -353,21 +353,6 @@
               ],
               "volumes": [
                 "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
-              ],
-              "environment": [
-                "MYSQL_ROOT_PASSWORD",
-                "MYSQL_DATABASE",
-                "MYSQL_USER",
-                "MYSQL_PASSWORD"
-              ]
-            },
-            "web": {
-              "image": "simonhutson/srh-anite-wordpress-4.3",
-              "ports": [
-                "80:80"
-              ],
-              "links": [
-                "database"
               ]
             }
           }
