@@ -20,7 +20,19 @@
     "adminPassword": {
       "value": "password"
     },
-    "mySqlPassword": {
+    "vmDataVolumePath": {
+      "value": "/DataVolume"
+    },
+    "mysqlRootPassword": {
+      "value": "password"
+    },
+    "mysqlDatabase": {
+      "value": "WORDPRESS"
+    },
+    "mysqlUser": {
+      "value": "wpuser"
+      },
+    "mysqlPassword": {
       "value": "password"
     }
   }
