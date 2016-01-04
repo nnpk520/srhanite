@@ -346,13 +346,13 @@
         },
         "settings": {
           "compose": {
-            "mysql": {
+            "database": {
               "image": "simonhutson/srh-anite-mysql-5.6",
               "ports": [
                 "3306:3306"
               ],
               "volumes": [
-                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
+                "/datadisk:/var/lib/mysql"
               ],
               "environment": [
                 "MYSQL_ROOT_PASSWORD",
@@ -361,13 +361,13 @@
                 "MYSQL_PASSWORD"
               ]
             },
-            "wordpress": {
+            "web": {
               "image": "simonhutson/srh-anite-wordpress-4.3",
               "ports": [
                 "80:80"
               ],
               "links": [
-                "mysql"
+                "database"
               ]
             }
           }
