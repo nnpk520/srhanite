@@ -83,10 +83,25 @@
         "description": "Admin password for the Virtual Machine(s)."
       }
     },
-    "mysqlPassword": {
+    "mysqlRootPassword": {
       "type": "securestring",
       "metadata": {
         "description": "Root password for the MySQL database."
+      },
+    "mysqlDatabase": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the MySQL WordPress database."
+      },
+    "mysqlUser": {
+      "type": "string",
+      "metadata": {
+        "description": "User for the MySQL WordPress database."
+      },
+    "mysqlPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the MySQL Wordpress database."
       }
     }
   },
@@ -314,7 +329,10 @@
         "autoUpgradeMinorVersion": true,
         "protectedSettings": {
           "environment": {
-            "MYSQL_ROOT_PASSWORD": "[parameters('mysqlPassword')]"
+            "MYSQL_ROOT_PASSWORD": "[parameters('mysqlRootPassword')]",
+            "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
+            "MYSQL_USER": "[parameters('mysqlUser')]",
+            "MYSQL_PASSWORD": "[parameters('mysqlPassword')]"
           }
         },
         "settings": {
@@ -328,7 +346,10 @@
                 "/datadisks:/var/lib/mysql"
               ],
               "environment": [
-                "MYSQL_ROOT_PASSWORD"
+                "MYSQL_ROOT_PASSWORD",
+                "MYSQL_DATABASE",
+                "MYSQL_USER",
+                "MYSQL_PASSWORD"
               ]
             },
             "wordpress": {
