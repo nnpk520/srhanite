@@ -83,10 +83,10 @@
         "description": "Admin password for the Virtual Machine(s)."
       }
     },
-    "vmDataVolumePath": {
+    "dataDiskPath": {
       "type": "string",
       "metadata": {
-        "description": "Data volume path for the Virtual Machine(s)."
+        "description": "Data disk path for the Virtual Machine(s)."
       }
     },
     "mysqlRootPassword": {
@@ -349,7 +349,7 @@
                 "3306:3306"
               ],
               "volumes": [
-                "/datadisks:/var/lib/mysql"
+                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
               ],
               "environment": [
                 "MYSQL_ROOT_PASSWORD",
