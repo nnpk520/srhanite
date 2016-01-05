@@ -324,33 +324,6 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/OSPatchingForLinux')]",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "OSPatchingForLinux",
-        "typeHandlerVersion": "2.1",
-        "autoUpgradeMinorVersion": true,
-        "settings": {
-          "disabled": false,
-          "stop": false,
-          "rebootAfterPatch": "RebootIfNeed",
-          "category": "ImportantAndRecommended",
-          "installDuration": "<00:30>",
-          "oneoff": false,
-          "intervalOfWeeks": "1",
-          "dayOfWeek": "Sunday",
-          "startTime": "<03:00>",
-          "settings": { }
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/VMAccessForLinux')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
@@ -375,7 +348,8 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -387,11 +361,43 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/OSPatchingForLinux')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "OSPatchingForLinux",
+        "typeHandlerVersion": "2.1",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "disabled": false,
+          "stop": false,
+          "rebootAfterPatch": "RebootIfNeed",
+          "category": "ImportantAndRecommended",
+          "installDuration": "<00:30>",
+          "oneoff": false,
+          "intervalOfWeeks": "1",
+          "dayOfWeek": "Sunday",
+          "startTime": "<03:00>",
+          "settings": { }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/OSPatchingForLinux')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -412,6 +418,9 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/OSPatchingForLinux')]",
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
       ],
       "properties": {
@@ -432,22 +441,10 @@
         },
         "settings": {
           "compose": {
-            "mysql": {
-              "image": "simonhutson/srh-anite-mysql-5.6",
+            "web": {
+              "image": "docker pull centos/httpd",
               "ports": [
-                "3306:3306"
-              ],
-              "volumes": [
-                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
-              ],
-              "environment": [
-                "MYSQL_ROOT_PASSWORD",
-                "MYSQL_DATABASE",
-                "MYSQL_USER",
-                "MYSQL_PASSWORD",
-                "MYSQL_RANDOM_ROOT_PASSWORD",
-                "MYSQL_ONETIME_PASSWORD",
-                "MYSQL_ALLOW_EMPTY_PASSWORD"
+                "80:80"
               ]
             }
           }
