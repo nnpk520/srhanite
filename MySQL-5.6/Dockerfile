@@ -22,6 +22,8 @@ yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
 rm -rf /var/cache/*
 
+VOLUME /var/lib/mysql
+
 COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
