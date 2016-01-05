@@ -340,7 +340,7 @@
         "settings": {
           "compose": {
             "web": {
-              "image": "centos/httpd",
+              "image": "simonhutson/centos-7.1.1503-apache",
               "ports": [
                 "80:80"
               ]
