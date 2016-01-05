@@ -9,7 +9,7 @@ MAINTAINER Simon Hutson
 RUN \
 yum clean all && \
 yum -y update && \
-yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql libpng12-dev libjpe-dev && \
+yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql libpng12-dev libjpeg-dev && \
 rm -fr /var/cache/*
 
 # set recommended PHP.ini settings
