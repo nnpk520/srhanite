@@ -431,6 +431,19 @@
           }
         },
         "settings": {
+          "compose": {
+            "web": {
+              "image": "simonhutson/srh-anite-wordpress-4.3",
+              "ports": [
+                "80:80"
+              ],
+              "environment": [
+                "MYSQL_DATABASE",
+                "MYSQL_USER",
+                "MYSQL_PASSWORD"
+              ]
+            }
+          }
         }
       }
     }
