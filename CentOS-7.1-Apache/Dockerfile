@@ -1,4 +1,3 @@
-#FROM simonhutson/srh-anite-centos-7.1.1503
 FROM centos:7.1.1503
 MAINTAINER Simon Hutson
 
