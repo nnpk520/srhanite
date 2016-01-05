@@ -1,4 +1,5 @@
 # Useful Links
+# https://github.com/docker-library/mysql/blob/master/5.6/Dockerfile
 # http://downloads.mysql.com/docs/mysql-repo-excerpt-5.6-en.pdf
 # http://www.if-not-true-then-false.com/2010/install-mysql-on-fedora-centos-red-hat-rhel/comment-page-7/
 # https://www.youtube.com/watch?v=Kneb93gSoRg
@@ -8,7 +9,7 @@ MAINTAINER Simon Hutson
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install pwgen libpwqu libpwquality && \
+yum -y install perl pwgen libpwqu libpwquality && \
 rm -fr /var/cache/*
 
 # Install and Configure MySQL 5.6
