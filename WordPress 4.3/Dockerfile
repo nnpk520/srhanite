@@ -7,10 +7,23 @@ MAINTAINER Simon Hutson
 
 # Install WordPress Pre-requisites
 RUN \
-#yum clean all && \
-#yum -y update && \
+yum clean all && \
+yum -y update && \
 yum -y install httpd mod_rewrite mod_ssl mod_env php php-common php-cli php-mysql libpng12-dev libjpe-dev && \
 rm -fr /var/cache/*
+
+# set recommended PHP.ini settings
+# see https://secure.php.net/manual/en/opcache.installation.php
+RUN { \
+		echo 'opcache.memory_consumption=128'; \
+		echo 'opcache.interned_strings_buffer=8'; \
+		echo 'opcache.max_accelerated_files=4000'; \
+		echo 'opcache.revalidate_freq=60'; \
+		echo 'opcache.fast_shutdown=1'; \
+		echo 'opcache.enable_cli=1'; \
+	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+VOLUME /var/www/html
 
 # Copy Files To Image
 #ADD wordpress.conf /etc/httpd/conf.d/
