@@ -1,20 +1,17 @@
 FROM centos:7.1.1503
 MAINTAINER Simon Hutson
 
-# Get CentOS Updates
+# Install OS Updates and MySQL pre-requisites
 RUN \
 yum -y update && \
-yum clean all
-
-# Install MySQL Pre-requisites
-RUN \
+yum clean all && \
 yum -y install perl pwgen libpwqu libpwquality yum-utils && \
 rm -fr /var/cache/*
 
-# Install and Configure MySQL 5.6
-# 1. Install Latest 5.x Package http://dev.mysql.com/downloads/repo/yum/
-# 2. Disable All MySQL Repositories
-# 3. Enable The Repository For MySQL 5.6
+# Install and configure MySQL 5.6
+# 1. Install latest 5.x package http://dev.mysql.com/downloads/repo/yum/
+# 2. Disable all MySQL repositories
+# 3. Enable the repository for MySQL 5.6
 RUN \
 yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm && \
 yum-config-manager --disable mysql5* && \
