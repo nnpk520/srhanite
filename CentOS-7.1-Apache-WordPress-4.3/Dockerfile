@@ -1,4 +1,4 @@
-FROM simonhutsonsrh-anite-centos-7.1.1503-apache
+FROM simonhutson/srh-anite-centos-7.1.1503-apache
 MAINTAINER Simon Hutson
 
 # Install WordPress Pre-requisites
