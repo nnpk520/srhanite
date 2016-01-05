@@ -8,7 +8,7 @@ yum clean all
 
 # Install MySQL Pre-requisites
 RUN \
-yum -y install perl pwgen libpwqu libpwquality && \
+yum -y install perl pwgen libpwqu libpwquality yum-utils && \
 rm -fr /var/cache/*
 
 # Install and Configure MySQL 5.6
