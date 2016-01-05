@@ -340,7 +340,7 @@
         "settings": {
           "compose": {
             "web": {
-              "image": "docker pull centos/httpd",
+              "image": "centos/httpd",
               "ports": [
                 "80:80"
               ]
