@@ -119,7 +119,7 @@
     "imageOffer": "CentOS",
     "imageOSVersion": "7.1",
     "OSDiskName": "[concat(parameters('prefix'),'osdisk')]",
-    "dataDiskSize": "100",
+    "dataDiskSize": "127",
     "dnsName": "[parameters('prefix')]",
     "nicName": "[concat(parameters('prefix'),'nic')]",
     "extensionName": "DockerExtension",
