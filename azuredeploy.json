@@ -120,7 +120,7 @@
     "imageOSVersion": "7.1",
     "OSDiskName": "[concat(parameters('prefix'),'osdisk')]",
     "dataDiskSize": "100",
-    "dnsName": "[concat(parameters('prefix'),'dns')]",
+    "dnsName": "[parameters('prefix')]",
     "nicName": "[concat(parameters('prefix'),'nic')]",
     "extensionName": "DockerExtension",
     "addressPrefix": "10.0.0.0/16",
@@ -186,7 +186,7 @@
      },
    },
    "vmDataDisk": "[variables('vmDataDiskSettings')[parameters('vmSize')]]",
-   "vmDataDiskCount": "[variables('vmDataDisk').count"
+   "vmDataDiskCount": "[variables('vmDataDisk').count]"
   },
   "resources": [
     {
@@ -328,8 +328,7 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -386,8 +385,8 @@
       }
     },
     {
-     "type": "Microsoft.Compute/virtualMachines/extensions",
-     "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
