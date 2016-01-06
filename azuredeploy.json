@@ -414,9 +414,6 @@
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]",
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/OSPatchingForLinux')]",
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
       ],
       "properties": {
@@ -429,7 +426,7 @@
         "settings": {
           "compose": {
             "web": {
-              "image": "simonhutson/centos-7.1.1503-apache",
+              "image": "simonhutson/centos-7.1.1503-apache-wordpress-4.3",
               "ports": [
                 "80:80"
               ]
