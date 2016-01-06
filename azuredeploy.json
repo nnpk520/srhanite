@@ -324,11 +324,101 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/LinuxDiagnostic')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "LinuxDiagnostic",
+        "typeHandlerVersion": "2.2",
+        "settings": { },
+        "protectedSettings": { }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/VMAccessForLinux')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "VMAccessForLinux",
+        "typeHandlerVersion": "1.3",
+        "settings": { },
+        "protectedSettings": {
+          "username": "[parameters('adminUsername')]",
+          "password": "[parameters('adminPassword')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/OSPatchingForLinux')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "OSPatchingForLinux",
+        "typeHandlerVersion": "2.1",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "disabled": false,
+          "stop": false,
+          "rebootAfterPatch": "RebootIfNeed",
+          "category": "ImportantAndRecommended",
+          "installDuration": "<00:30>",
+          "oneoff": false,
+          "intervalOfWeeks": "1",
+          "dayOfWeek": "Sunday",
+          "startTime": "<03:00>",
+          "settings": { }
+        }
+      }
+    },
+    {
+     "type": "Microsoft.Compute/virtualMachines/extensions",
+     "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/OSPatchingForLinux')]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.2",
+        "settings": {
+          "fileUris": [
+            "[variables('scriptUrl')]"
+          ],
+          "commandToExecute": "[concat('bash vm-disk-utils-0.1.sh -b', parameters('dataDiskPath'), ' -s')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/LinuxDiagnostic')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/OSPatchingForLinux')]",
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
