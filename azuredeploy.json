@@ -422,6 +422,12 @@
         "typeHandlerVersion": "1.0",
         "autoUpgradeMinorVersion": true,
         "protectedSettings": {
+          "environment": {
+            "MYSQL_ROOT_PASSWORD": "[parameters('mysqlRootPassword')]",
+            "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
+            "MYSQL_USER": "[parameters('mysqlUser')]",
+            "MYSQL_PASSWORD": "[parameters('mysqlPassword')]"
+          }
         },
         "settings": {
           "compose": {
@@ -429,6 +435,24 @@
               "image": "simonhutson/centos-7.1.1503-apache-wordpress-4.3",
               "ports": [
                 "80:80"
+              ],
+              "Links": [
+                "db"
+              ]
+            },
+            "db": {
+              "image": "simonhutson/centos-7.1.1503-mysql-5.6",
+              "ports": [
+                "3306:3306"
+              ],
+              "volumes": [
+                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
+              ],
+              "environment": [
+                "MYSQL_ROOT_PASSWORD",
+                "MYSQL_DATABASE",
+                "MYSQL_USER",
+                "MYSQL_PASSWORD"
               ]
             }
           }
