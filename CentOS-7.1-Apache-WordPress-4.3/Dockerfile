@@ -3,7 +3,7 @@ MAINTAINER Simon Hutson
 
 # Install WordPress Pre-requisites
 RUN \
-yum -y install php php-common php-cli php-mysql libpng12-dev libjpeg-dev unzip curl wget && \
+yum -y install php php-common php-cli php-mysql php-gd libpng12-dev libjpeg-dev unzip curl wget && \
 rm -fr /var/cache/*
 
 VOLUME /var/www/html
@@ -23,9 +23,9 @@ ENV WORDPRESS_SHA1 1e9046b584d4eaebac9e1f7292ca7003bfc8ffd7
 RUN \
 curl -o wordpress.tar.gz -SL https://wordpress.org/wordpress-${WORDPRESS_VERSION}.tar.gz && \
 echo "$WORDPRESS_SHA1 *wordpress.tar.gz" | sha1sum -c - && \
-tar -xzf wordpress.tar.gz -C /usr/src/ && \
+tar -xzf wordpress.tar.gz -C /var/www/ && \
 rm wordpress.tar.gz && \
-chown -R www-data:www-data /usr/src/wordpress
+chown -R www-data:www-data /var/www/html/wordpress
 	
 COPY docker-entrypoint.sh /entrypoint.sh
 
