@@ -14,9 +14,9 @@ ENV WORDPRESS_SHA1 3129156cc3fe245be77b15970a636be2e5bebcc1
 
 # Install and Configure WordPress
 RUN \
-wget https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip
-RUN echo "$WORDPRESS_SHA1 *wordpress-${WORDPRESS_VERSION}.zip" | sha1sum -c
-RUN unzip wordpress-${WORDPRESS_VERSION}.zip -d /var/www/html/ && \
+wget https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip && \
+echo "$WORDPRESS_SHA1 *wordpress-${WORDPRESS_VERSION}.zip" | sha1sum -c && \
+unzip wordpress-${WORDPRESS_VERSION}.zip -d /var/www/html/ && \
 rm -fr wordpress-${WORDPRESS_VERSION}.zip && \
 cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
