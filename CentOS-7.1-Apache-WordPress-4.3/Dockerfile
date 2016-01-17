@@ -3,7 +3,7 @@ MAINTAINER Simon Hutson
 
 # Install WordPress Pre-requisites
 RUN \
-yum -y install php php-common php-cli php-mysql php-gd libpng12-dev libjpeg-dev unzip curl wget && \
+yum -y install php php-common php-cli php-mysql php-gd libpng12-dev libjpeg-dev unzip curl wget tar && \
 rm -fr /var/cache/*
 
 VOLUME /var/www/html
