@@ -14,10 +14,10 @@ ENV WORDPRESS_SHA1 3129156cc3fe245be77b15970a636be2e5bebcc1
 
 # Install and Configure WordPress
 RUN \
-wget -P /var/www/html/ https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip
+wget https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip
 RUN echo "$WORDPRESS_SHA1 *wordpress-${WORDPRESS_VERSION}.zip" | sha1sum -c
-RUN unzip /var/www/html/wordpress-${WORDPRESS_VERSION}.zip -d /var/www/html/ && \
-rm -fr /var/www/html/wordpress-${WORDPRESS_VERSION}.zip && \
+RUN unzip wordpress-${WORDPRESS_VERSION}.zip -d /var/www/html/ && \
+rm -fr wordpress-${WORDPRESS_VERSION}.zip && \
 cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
 COPY docker-entrypoint.sh /entrypoint.sh
