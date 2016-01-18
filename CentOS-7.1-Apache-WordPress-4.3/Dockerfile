@@ -21,8 +21,8 @@ rm -fr wordpress-${WORDPRESS_VERSION}.zip && \
 cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
 
 COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod -v +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 80
-
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["apache2-foreground"]
