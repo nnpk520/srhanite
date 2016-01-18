@@ -3,7 +3,7 @@ MAINTAINER Simon Hutson
 
 RUN \
 yum clean all && \
-yum update -y
+yum -y --exclude=iputils.x86_64* update
 RUN \
 yum -y install unzip curl wget tar vim vim-enhanced nano yum-utils && \
 yum clean all && \
