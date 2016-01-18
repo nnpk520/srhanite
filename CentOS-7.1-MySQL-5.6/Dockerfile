@@ -1,11 +1,10 @@
-FROM centos:7.1.1503
+FROM simonhutson/centos-7.1.1503
 MAINTAINER Simon Hutson
 
-# Install OS Updates and MySQL pre-requisites
+# Install MySQL pre-requisites
 RUN \
-yum -y update && \
+yum -y install perl pwgen libpwqu libpwquality && \
 yum clean all && \
-yum -y install perl pwgen libpwqu libpwquality yum-utils && \
 rm -fr /var/cache/*
 
 # Install and configure MySQL 5.6
@@ -17,6 +16,7 @@ yum -y install https://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.
 yum-config-manager --disable mysql5* && \
 yum-config-manager --enable mysql56-community && \
 yum -y install mysql-community-server && \
+yum clean all && \
 rm -rf /var/cache/*
 
 VOLUME /var/lib/mysql
@@ -24,6 +24,6 @@ VOLUME /var/lib/mysql
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod -v +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
+CMD ["mysqld"]
 
 EXPOSE 3306
-CMD ["mysqld"]
