@@ -434,7 +434,6 @@
                         "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
                         "MYSQL_USER": "[parameters('mysqlUser')]",
                         "MYSQL_PASSWORD": "[parameters('mysqlPassword')]",
-                        "WORDPRESS_DB_HOST": "db",
                         "WORDPRESS_DB_NAME": "[parameters('mysqlDatabase')]",
                         "WORDPRESS_DB_USER": "[parameters('mysqlUser')]",
                         "WORDPRESS_DB_PASSWORD": "[parameters('mysqlPassword')]"
@@ -451,7 +450,6 @@
                                 "db"
                             ],
                             "environment": [
-                                "WORDPRESS_DB_HOST",
                                 "WORDPRESS_DB_NAME",
                                 "WORDPRESS_DB_USER",
                                 "WORDPRESS_DB_PASSWORD"
