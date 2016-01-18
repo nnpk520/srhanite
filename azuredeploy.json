@@ -434,20 +434,30 @@
             "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
             "MYSQL_USER": "[parameters('mysqlUser')]",
             "MYSQL_PASSWORD": "[parameters('mysqlPassword')]"
+            "WORDPRESS_DB_HOST": "mysql",
+            "WORDPRESS_DB_NAME": "[parameters('mysqlDatabase')]",
+            "WORDPRESS_DB_USER": "[parameters('mysqlUser')]",
+            "WORDPRESS_DB_PASSWORD": "[parameters('mysqlPassword')]"
           }
         },
         "settings": {
           "compose": {
-            "web": {
+            "wordpress": {
               "image": "simonhutson/centos-7.1.1503-apache-wordpress-4.3",
               "ports": [
                 "80:80"
               ],
               "links": [
-                "db"
-              ]
+                "mysql"
+              ],
+              "environment": [
+                "WORDPRESS_DB_HOST",
+                "WORDPRESS_DB_NAME"
+                "WORDPRESS_DB_USER",
+                "WORDPRESS_DB_PASSWORD"
+                ]
             },
-            "db": {
+            "mysql": {
               "image": "mysql",
               "ports": [
                 "3306:3306"
