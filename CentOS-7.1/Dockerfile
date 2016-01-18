@@ -4,5 +4,5 @@ MAINTAINER Simon Hutson
 RUN \
 yum clean all && \
 yum -y update && \
-yum-y install unzip curl wget tar vim nano && \
+yum -y install unzip curl wget tar vim nano yum-utils && \
 rm -fr /var/cache/*
