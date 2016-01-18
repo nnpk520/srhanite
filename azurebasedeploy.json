@@ -15,13 +15,6 @@
                 "description": "Admin user name for the Virtual Machine(s)."
             }
         },
-        "dataDiskPath": {
-            "type": "string",
-            "defaultValue": "/datadisk",
-            "metadata": {
-                "description": "Data disk path for the Virtual Machine(s)."
-            }
-        },
         "location": {
             "type": "string",
             "defaultValue": "North Europe",
@@ -103,7 +96,6 @@
         "dataDiskSize": "127",
         "dnsName": "[parameters('prefix')]",
         "nicName": "[concat(parameters('prefix'),'nic')]",
-        "extensionName": "DockerExtension",
         "addressPrefix": "10.0.0.0/16",
         "subnetName": "[concat(parameters('prefix'),'subnet')]",
         "subnetPrefix": "10.0.0.0/24",
@@ -114,60 +106,7 @@
         "vmName": "[concat(parameters('prefix'),'vm')]",
         "vnetName": "[concat(parameters('prefix'),'vnet')]",
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
-        "subnetRef": "[concat(variables('vnetID'), '/subnets/', variables('subnetName'))]",
-        "scriptUrl": "https://raw.githubusercontent.com/simonhutson/srhanite/master/vm-disk-utils-0.1.sh",
-        "vmDataDiskSettings": {
-            "Standard_A1": {
-                "count": 2
-            },
-            "Standard_A2": {
-                "count": 4
-            },
-            "Standard_A3": {
-                "count": 8
-            },
-            "Standard_A4": {
-                "count": 16
-            },
-            "Standard_D1": {
-                "count": 2
-            },
-            "Standard_D2": {
-                "count": 4
-            },
-            "Standard_D3": {
-                "count": 8
-            },
-            "Standard_D4": {
-                "count": 16
-            },
-            "Standard_D1_v2": {
-                "count": 2
-            },
-            "Standard_D2_v2": {
-                "count": 4
-            },
-            "Standard_D3_v2": {
-                "count": 8
-            },
-            "Standard_D4_v2": {
-                "count": 16
-            },
-            "Standard_DS1": {
-                "count": 2
-            },
-            "Standard_DS2": {
-                "count": 4
-            },
-            "Standard_DS3": {
-                "count": 8
-            },
-            "Standard_DS4": {
-                "count": 16
-            }
-        },
-        "vmDataDisk": "[variables('vmDataDiskSettings')[parameters('vmSize')]]",
-        "vmDataDiskCount": "[variables('vmDataDisk').count]"
+        "subnetRef": "[concat(variables('vnetID'), '/subnets/', variables('subnetName'))]"
     },
     "resources": [
         {
@@ -302,7 +241,7 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
+            "name": "[concat(variables('vmName'),'/DockerExtension')]",
             "apiVersion": "2015-06-15",
             "location": "[parameters('location')]",
             "dependsOn": [
