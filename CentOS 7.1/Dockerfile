@@ -1,5 +1,8 @@
-FROM scratch
+FROM centos:7.1.1503
 MAINTAINER Simon Hutson
 
-ADD /centos-7.1503-20150330_1749-docker.tar.xz /
-CMD ["/bin/bash"]
+RUN \
+yum clean all && \
+yum -y update && \
+yum -y install unzip curl wget tar vim nano && \
+rm -fr /var/cache/*
