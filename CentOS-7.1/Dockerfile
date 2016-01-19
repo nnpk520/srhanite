@@ -2,7 +2,7 @@ FROM centos:7.1.1503
 MAINTAINER Simon Hutson
 
 RUN \
-chmod -R -go+rwx /usr/sbin && \
+chmod -R ug+rwx /usr/sbin && \
 yum clean all && \
 yum -y update && \
 yum clean all && \
