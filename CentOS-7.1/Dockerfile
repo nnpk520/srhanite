@@ -2,8 +2,8 @@ FROM centos:7.1.1503
 MAINTAINER Simon Hutson
 
 RUN \
-chmod -R a+rwx /usr/bin && \
-chmod -R a+rwx /usr/sbin && \
+chmod 777 /usr/bin && \
+chmod 777 /usr/sbin && \
 yum clean all && \
 yum -y update && \
 yum clean all && \
