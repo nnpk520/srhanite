@@ -2,11 +2,16 @@
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-This template allows you to deploy an CentOS VM with Docker (using the Docker Extension) installed.
-You can run `docker` commands by connecting to the virtual machine with SSH.
+CentOS host VM + Azure Docker agent
+
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsimonhutson%2Fsrhanite%2Fmaster%2Fazurewordpressdeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+CentOS host VM + Azure Docker agent + official WordPress and MySQL Docker images
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsimonhutson%2Fsrhanite%2Fmaster%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-This template allows you to deploy an CentOS VM with Docker (using the Docker Extension) installed, with containers for Wordpress and MySQL.
+CentOS host VM + Azure Docker agent + custom WordPress and MySQL Docker images
