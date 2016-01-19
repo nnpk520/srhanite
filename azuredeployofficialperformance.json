@@ -377,7 +377,7 @@
                                 "3306:3306"
                             ],
                             "volumes": [
-                                "[concat(parameters('dataDiskPath'), ':/var/lib/mysql')]"
+                                "[concat(parameters('dataDiskPath'),'/disk1', ':/var/lib/mysql')]"
                             ],
                             "environment": [
                                 "MYSQL_ROOT_PASSWORD",
