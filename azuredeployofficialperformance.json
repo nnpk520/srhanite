@@ -343,24 +343,10 @@
                 },
                 "settings": {
                     "compose": {
-                        "wordpress1": {
+                        "wordpress": {
                             "image": "wordpress:4.4-apache",
                             "ports": [
                                 "80:80"
-                            ],
-                            "links": [
-                                "mysql"
-                            ],
-                            "environment": [
-                                "WORDPRESS_DB_NAME",
-                                "WORDPRESS_DB_USER",
-                                "WORDPRESS_DB_PASSWORD"
-                            ]
-                        },
-                        "wordpress2": {
-                            "image": "wordpress:4.4-apache",
-                            "ports": [
-                                "81:80"
                             ],
                             "links": [
                                 "mysql"
