@@ -355,7 +355,6 @@
                             ],
                             "restart": "always"
                         },
-                        "restart": "always",
                         "wordpress1": {
                             "image": "wordpress:4.4-apache",
                             "links": [
