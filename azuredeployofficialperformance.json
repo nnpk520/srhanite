@@ -17,7 +17,7 @@
         },
         "dataDiskPath": {
             "type": "string",
-            "defaultValue": "/datadisk",
+            "defaultValue": "/datadisks",
             "metadata": {
                 "description": "Data disk path for the Virtual Machine(s)."
             }
