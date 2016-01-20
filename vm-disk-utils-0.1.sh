@@ -291,6 +291,8 @@ create_striped_volume()
     add_to_fstab "${UUID}" "${MOUNTPOINT}"
  
     mount "${MOUNTPOINT}"
+    # Remove files & folders from the MOUNTPOINT, including "lost+found" folder
+    rm -rf "${MOUNTPOINT}"
 }
  
 check_mdadm() {
