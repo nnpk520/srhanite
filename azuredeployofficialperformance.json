@@ -135,6 +135,7 @@
         "storageAccountName": "[concat(parameters('prefix'),'storage')]",
         "publicIPAddressName": "[concat(parameters('prefix'),'publicip')]",
         "publicIPAddressType": "Dynamic",
+        "lbName": "[concat(parameters('prefix'),'lb')]",
         "vmStorageAccountContainerName": "vhds",
         "vmName": "[concat(parameters('prefix'),'vm')]",
         "vnetName": "[concat(parameters('prefix'),'vnet')]",
@@ -206,6 +207,79 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "name": "[variables('lbName')]",
+            "type": "Microsoft.Network/loadBalancers",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+            ],
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "LoadBalancerFrontEnd",
+                        "properties": {
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "LoadBalancerBackEnd"
+                    }
+                ],
+                "inboundNatRules": [
+                    {
+                        "name": "SSH",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName')),'/frontendIPConfigurations/LoadBalancerFrontEnd')]"
+                            },
+                            "protocol": "Tcp",
+                            "frontendPort": 22,
+                            "backendPort": 22,
+                            "enableFloatingIP": false
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "LBRule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName')),'/frontendIPConfigurations/LoadBalancerFrontEnd')]"
+                            },
+                            "backendAddressPool": {
+                                "id": "[concat(resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName')),'/backendAddressPools/LoadBalancerBackEnd')]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('lbName')),'/probes/tcpProbe')]"
+                            },
+                            "protocol": "Tcp",
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "loadDistribution" : "Default",
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 5
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "tcpProbe",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "port": 80,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
                         }
                     }
                 ]
@@ -343,14 +417,36 @@
                 },
                 "settings": {
                     "compose": {
-                        "wordpress": {
-                            "image": "wordpress:4.4-apache",
+                        "haproxy": {
+                            "image": "tutum/haproxy:0.1",
                             "ports": [
                                 "80:80"
                             ],
                             "links": [
+                                "wordpress1",
+                                "wordpress2"
+                            ],
+                            "restart": "always"
+                        },
+                        "restart": "always",
+                        "wordpress1": {
+                            "image": "wordpress:4.4-apache",
+                            "links": [
                                 "mysql"
                             ],
+                            "restart": "always",
+                            "environment": [
+                                "WORDPRESS_DB_NAME",
+                                "WORDPRESS_DB_USER",
+                                "WORDPRESS_DB_PASSWORD"
+                            ]
+                        },
+                        "wordpress2": {
+                            "image": "wordpress:4.4-apache",
+                            "links": [
+                                "mysql"
+                            ],
+                            "restart": "always",
                             "environment": [
                                 "WORDPRESS_DB_NAME",
                                 "WORDPRESS_DB_USER",
@@ -365,6 +461,7 @@
                             "volumes": [
                                 "[concat(parameters('dataDiskPath'),'/disk1', ':/var/lib/mysql')]"
                             ],
+                            "restart": "always",
                             "environment": [
                                 "MYSQL_ROOT_PASSWORD",
                                 "MYSQL_DATABASE",
