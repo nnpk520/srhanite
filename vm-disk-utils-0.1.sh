@@ -291,8 +291,8 @@ create_striped_volume()
     add_to_fstab "${UUID}" "${MOUNTPOINT}"
  
     mount "${MOUNTPOINT}"
-    # Remove files & folders from the MOUNTPOINT, including "lost+found" folder
-    rm -rf "${MOUNTPOINT}"
+    # Workaround for MySQL 5.7 bug - http://bugs.mysql.com/bug.php?id=79250
+    rmdir "${MOUNTPOINT}/lost+found"
 }
  
 check_mdadm() {
