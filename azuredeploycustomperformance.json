@@ -360,7 +360,6 @@
                             "links": [
                                 "mysql"
                             ],
-                            "restart": "always",
                             "environment": [
                                 "WORDPRESS_DB_NAME",
                                 "WORDPRESS_DB_USER",
@@ -372,7 +371,6 @@
                             "links": [
                                 "mysql"
                             ],
-                            "restart": "always",
                             "environment": [
                                 "WORDPRESS_DB_NAME",
                                 "WORDPRESS_DB_USER",
@@ -387,7 +385,6 @@
                             "volumes": [
                                 "[concat(parameters('dataDiskPath'),'/disk1', ':/var/lib/mysql')]"
                             ],
-                            "restart": "always",
                             "environment": [
                                 "MYSQL_ROOT_PASSWORD",
                                 "MYSQL_DATABASE",
