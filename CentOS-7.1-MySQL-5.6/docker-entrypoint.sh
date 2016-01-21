@@ -17,6 +17,9 @@ if [ "$1" = 'mysqld' ]; then
                         exit 1
                 fi
 		mkdir -p "$DATADIR"
+		adduser mysql
+		groupadd mysql
+		gpasswd -a mysql mysql
 		chown -R mysql:mysql "$DATADIR"
 
 		echo 'Running mysql_install_db'
