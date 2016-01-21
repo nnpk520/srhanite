@@ -10,6 +10,6 @@ rm -fr /var/cache/*
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod -v +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["httpd -DFOREGROUND"]
+CMD ["httpd", "-DFOREGROUND"]
 
 EXPOSE 80
