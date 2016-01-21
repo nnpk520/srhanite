@@ -1,0 +1,403 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Admin password for the Virtual Machine(s)."
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "srh",
+            "metadata": {
+                "description": "Admin user name for the Virtual Machine(s)."
+            }
+        },
+        "dataDiskPath": {
+            "type": "string",
+            "defaultValue": "/datadisks",
+            "metadata": {
+                "description": "Data disk path for the Virtual Machine(s)."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "North Europe",
+            "metadata": {
+                "description": "The location where the Virtual Machine(s) will be deployed."
+            },
+            "allowedValues": [
+                "Central US",
+                "East US",
+                "East US 2",
+                "North Central US",
+                "South Central US",
+                "West US",
+                "West Europe",
+                "North Europe",
+                "East Asia",
+                "Southeast Asia",
+                "Japan East",
+                "Japan West",
+                "Brazil South",
+                "Australia East",
+                "Australia Southeast",
+                "Central India",
+                "South India",
+                "West India"
+            ]
+        },
+        "mysqlDatabase": {
+            "type": "string",
+            "defaultValue": "wordpress",
+            "metadata": {
+                "description": "Name of the WordPress MySQL database."
+            }
+        },
+        "mysqlPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Password for the Wordpress MySQL database."
+            }
+        },
+        "mysqlRootPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Root password for the MySQL database."
+            }
+        },
+        "mysqlUser": {
+            "type": "string",
+            "defaultValue": "wpuser",
+            "metadata": {
+                "description": "User for the WordPress MySQL database."
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique prefix for resource names."
+            }
+        },
+        "storageAccountType": {
+            "type": "string",
+            "defaultValue": "Standard_LRS",
+            "metadata": {
+                "description": "The type of storage to be deployed."
+            },
+            "allowedValues": [
+                "Standard_LRS",
+                "Standard_ZRS",
+                "Standard_GRS",
+                "Standard_RAGRS",
+                "Premium_LRS"
+            ]
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_DS1",
+            "metadata": {
+                "description": "The size of Virtual Machine(s) to be deployed."
+            },
+            "allowedValues": [
+                "Standard_A1",
+                "Standard_A2",
+                "Standard_A3",
+                "Standard_A4",
+                "Standard_D1",
+                "Standard_D2",
+                "Standard_D3",
+                "Standard_D4",
+                "Standard_D1_v2",
+                "Standard_D2_v2",
+                "Standard_D3_v2",
+                "Standard_D4_v2",
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4"
+            ]
+        }
+    },
+    "variables": {
+        "imagePublisher": "OpenLogic",
+        "imageOffer": "CentOS",
+        "imageOSVersion": "7.1",
+        "OSDiskName": "[concat(parameters('prefix'),'osdisk')]",
+        "dataDiskSize": "127",
+        "dnsName": "[parameters('prefix')]",
+        "nicName": "[concat(parameters('prefix'),'nic')]",
+        "addressPrefix": "10.0.0.0/16",
+        "subnetName": "[concat(parameters('prefix'),'subnet')]",
+        "subnetPrefix": "10.0.0.0/24",
+        "storageAccountName": "[concat(parameters('prefix'),'storage')]",
+        "publicIPAddressName": "[concat(parameters('prefix'),'publicip')]",
+        "publicIPAddressType": "Dynamic",
+        "lbName": "[concat(parameters('prefix'),'lb')]",
+        "vmStorageAccountContainerName": "vhds",
+        "vmName": "[concat(parameters('prefix'),'vm')]",
+        "vnetName": "[concat(parameters('prefix'),'vnet')]",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', variables('vnetName'))]",
+        "subnetRef": "[concat(variables('vnetID'), '/subnets/', variables('subnetName'))]",
+        "scriptUrl": "https://raw.githubusercontent.com/simonhutson/srhanite/master/vm-disk-utils-0.1.sh"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "name": "[variables('storageAccountName')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "properties": {
+                "accountType": "[parameters('storageAccountType')]"
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[variables('publicIPAddressName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[variables('dnsName')]"
+                }
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('vnetName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[variables('nicName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', variables('vnetName'))]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2015-06-15",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[variables('vmName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[variables('vmName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('imageOSVersion')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(variables('vmName'),'osdisk')]",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',variables('OSDiskName'),'.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "[concat(variables('vmName'),'datadisk01')]",
+                            "diskSizeGB": "[variables('dataDiskSize')]",
+                            "lun": 0,
+                            "vhd": {
+                                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'dataDisk1' ,'.vhd')]"
+                            },
+                            "caching": "None",
+                            "createOption": "Empty"
+                        },
+                        {
+                            "name": "[concat(variables('vmName'),'datadisk02')]",
+                            "diskSizeGB": "[variables('dataDiskSize')]",
+                            "lun": 1,
+                            "vhd": {
+                                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName') ,'dataDisk2','.vhd')]"
+                            },
+                            "caching": "None",
+                            "createOption": "Empty"
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmName'),'/VMAccessForLinux')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.OSTCExtensions",
+                "type": "VMAccessForLinux",
+                "typeHandlerVersion": "1.3",
+                "settings": { },
+                "protectedSettings": {
+                    "username": "[parameters('adminUsername')]",
+                    "password": "[parameters('adminPassword')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmName'), '/CustomScriptForLinux')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/VMAccessForLinux')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.OSTCExtensions",
+                "type": "CustomScriptForLinux",
+                "typeHandlerVersion": "1.2",
+                "settings": {
+                    "fileUris": [
+                        "[variables('scriptUrl')]"
+                    ],
+                    "commandToExecute": "[concat('bash vm-disk-utils-0.1.sh -b', parameters('dataDiskPath'), ' -s')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('vmName'),'/DockerExtension')]",
+            "apiVersion": "2015-06-15",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+                "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'),'/extensions/CustomScriptForLinux')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Extensions",
+                "type": "DockerExtension",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "protectedSettings": {
+                    "environment": {
+                        "MYSQL_ROOT_PASSWORD": "[parameters('mysqlRootPassword')]",
+                        "MYSQL_DATABASE": "[parameters('mysqlDatabase')]",
+                        "MYSQL_USER": "[parameters('mysqlUser')]",
+                        "MYSQL_PASSWORD": "[parameters('mysqlPassword')]",
+                        "WORDPRESS_DB_NAME": "[parameters('mysqlDatabase')]",
+                        "WORDPRESS_DB_USER": "[parameters('mysqlUser')]",
+                        "WORDPRESS_DB_PASSWORD": "[parameters('mysqlPassword')]"
+                    }
+                },
+                "settings": {
+                    "compose": {
+                        "haproxy": {
+                            "image": "tutum/haproxy:0.1",
+                            "ports": [
+                                "80:80"
+                            ],
+                            "links": [
+                                "wordpress1",
+                                "wordpress2"
+                            ],
+                            "restart": "always"
+                        },
+                        "wordpress1": {
+                            "image": "wordpress:4.4-apache",
+                            "links": [
+                                "mysql"
+                            ],
+                            "restart": "always",
+                            "environment": [
+                                "WORDPRESS_DB_NAME",
+                                "WORDPRESS_DB_USER",
+                                "WORDPRESS_DB_PASSWORD"
+                            ]
+                        },
+                        "wordpress2": {
+                            "image": "wordpress:4.4-apache",
+                            "links": [
+                                "mysql"
+                            ],
+                            "restart": "always",
+                            "environment": [
+                                "WORDPRESS_DB_NAME",
+                                "WORDPRESS_DB_USER",
+                                "WORDPRESS_DB_PASSWORD"
+                            ]
+                        },
+                        "mysql": {
+                            "image": "simonhutson\centos-7.1-mysql-5.6",
+                            "ports": [
+                                "3306:3306"
+                            ],
+                            "volumes": [
+                                "[concat(parameters('dataDiskPath'),'/disk1', ':/var/lib/mysql')]"
+                            ],
+                            "restart": "always",
+                            "environment": [
+                                "MYSQL_ROOT_PASSWORD",
+                                "MYSQL_DATABASE",
+                                "MYSQL_USER",
+                                "MYSQL_PASSWORD"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
