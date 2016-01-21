@@ -24,6 +24,6 @@ VOLUME /var/lib/mysql
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod -v +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["mysqld", "-u root"]
+CMD ["mysqld", "-u mysql"]
 
 EXPOSE 3306
