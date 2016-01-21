@@ -3,7 +3,8 @@ MAINTAINER Simon Hutson
 
 # Install the latest versions of PHP and Apache HTTP Server
 RUN \
-yum -y install php php-mysql php-gd php-mbstring httpd && \
+yum -y update && \
+yum -y install php php-common php-cli php-mysql php-gd php-mbstring httpd && \
 yum clean all && \
 rm -fr /var/cache/*
 
