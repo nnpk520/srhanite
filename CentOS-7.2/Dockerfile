@@ -2,7 +2,7 @@ FROM centos:7.2.1511
 MAINTAINER Simon Hutson
 
 # Systemd is included in the centos 7 base containers, but it is not active by default. 
-RUN yum -y swap --remove fakesystemd --install systemd systemd-libs
+RUN yum -y swap -- remove fakesystemd -- install systemd systemd-libs
 RUN yum -y update; yum clean all; \
 (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
 rm -f /lib/systemd/system/multi-user.target.wants/*; \
