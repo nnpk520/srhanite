@@ -7,6 +7,11 @@ yum -y install perl pwgen libpwqu libpwquality && \
 yum clean all && \
 rm -fr /var/cache/*
 
+# Add "mysql" user and "mysql" group first, to make sure their IDs get assigned consistently
+RUN \
+groupadd -r mysql && \
+useradd -r -g mysql mysql
+
 # Install and configure MySQL 5.6
 # 1. Install latest 5.x package http://dev.mysql.com/downloads/repo/yum/
 # 2. Disable all MySQL repositories
@@ -24,6 +29,6 @@ VOLUME /var/lib/mysql
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod -v +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["mysqld", "-u mysql"]
+CMD ["mysqld"]
 
 EXPOSE 3306
