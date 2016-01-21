@@ -1,4 +1,4 @@
-FROM simonhutson/centos-7.1.1503
+FROM simonhutson/centos-7.1
 MAINTAINER Simon Hutson
 
 # Install the latest versions of PHP and Apache HTTP Server
