@@ -380,7 +380,7 @@
                             ]
                         },
                         "mysql": {
-                            "image": "simonhutson\centos-7.1-mysql-5.6",
+                            "image": "simonhutson/centos-7.1-mysql-5.6",
                             "ports": [
                                 "3306:3306"
                             ],
