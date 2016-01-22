@@ -24,6 +24,8 @@ if [ "$1" = 'mysqld' ]; then
 		mysqld --initialize-insecure=on --datadir="$DATADIR"
 		echo 'Database initialized'
 
+		echo '$@  = ' $@
+		echo '$! = ' $!
 		"$@" --skip-networking &
 		pid="$!"
 
@@ -34,7 +36,7 @@ if [ "$1" = 'mysqld' ]; then
 				break
 			fi
 			echo 'MySQL init process in progress...'
-			sleep 1
+			sleep 2
 		done
 		if [ "$i" = 0 ]; then
 			echo >&2 'MySQL init process failed.'
