@@ -378,12 +378,12 @@
                             ]
                         },
                         "mysql": {
-                            "image": "simonhutson/centos-7.1-mysql-5.6",
+                            "image": "simonhutson/centos-7.2-mysql-5.7",
                             "ports": [
                                 "3306:3306"
                             ],
                             "volumes": [
-                                "[concat(parameters('dataDiskPath'),'/disk1', ':/var/lib/mysql')]"
+                                "[concat(parameters('dataDiskPath'),'/disk1:/var/lib/mysql')]"
                             ],
                             "environment": [
                                 "MYSQL_ROOT_PASSWORD",
